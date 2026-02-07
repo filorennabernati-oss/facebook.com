@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facebook - Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        /* Pagina 1: Facebook Login */
+        #login-page {
+            background-color: #f0f2f5;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .login-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            gap: 40px;
+            max-width: 1000px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .login-left {
+            flex: 1;
+            padding-right: 32px;
+        }
+
+        .login-left h1 {
+            color: #1877f2;
+            font-size: 60px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            letter-spacing: -2px;
+        }
+
+        .login-left p {
+            font-size: 28px;
+            line-height: 32px;
+            color: #1c1e21;
+        }
+
+        .login-right {
+            flex: 0 0 396px;
+        }
+
+        .login-box {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1), 0 8px 16px rgba(0,0,0,0.1);
+            padding: 20px;
+            text-align: center;
+        }
+
+        .login-box input {
+            width: 100%;
+            padding: 14px 16px;
+            margin-bottom: 12px;
+            border: 1px solid #dddfe2;
+            border-radius: 6px;
+            font-size: 17px;
+        }
+
+        .login-box input:focus {
+            outline: none;
+            border-color: #1877f2;
+            box-shadow: 0 0 0 2px #e7f3ff;
+        }
+
+        .login-btn {
+            background-color: #1877f2;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 20px;
+            font-weight: bold;
+            padding: 14px;
+            width: 100%;
+            cursor: pointer;
+            margin-bottom: 16px;
+        }
+
+        .login-btn:hover {
+            background-color: #166fe5;
+        }
+
+        .forgot-password {
+            color: #1877f2;
+            font-size: 14px;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 20px;
+        }
+
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+
+        .divider {
+            border-bottom: 1px solid #dadde1;
+            margin: 20px 0;
+        }
+
+        .create-account-btn {
+            background-color: #42b72a;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 17px;
+            font-weight: bold;
+            padding: 14px 16px;
+            cursor: pointer;
+        }
+
+        .create-account-btn:hover {
+            background-color: #36a420;
+        }
+
+        .create-page {
+            margin-top: 28px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .create-page a {
+            color: #1c1e21;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .login-footer {
+            background: white;
+            padding: 30px 0;
+            margin-top: auto;
+        }
+
+        .footer-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .languages {
+            color: #8a8d91;
+            font-size: 12px;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .languages a {
+            color: #8a8d91;
+            text-decoration: none;
+            margin-right: 10px;
+        }
+
+        .languages a:hover {
+            text-decoration: underline;
+        }
+
+        .footer-links {
+            border-top: 1px solid #dddfe2;
+            padding-top: 15px;
+            color: #8a8d91;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        .footer-links a {
+            color: #8a8d91;
+            text-decoration: none;
+            margin-right: 15px;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+
+        .copyright {
+            margin-top: 20px;
+            font-size: 11px;
+            color: #737373;
+        }
+
+        /* Pagina 2: Hacker Console */
+        #hacker-page {
+            display: none;
+            background: #000;
+            min-height: 100vh;
+            color: #0f0;
+            font-family: 'Courier New', monospace;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.05;
+            pointer-events: none;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                #0f0 2px,
+                #0f0 4px
+            );
+        }
+
+        .hacker-container {
+            position: relative;
+            z-index: 1;
+            padding: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hacker-header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 2px solid #0f0;
+            padding-bottom: 20px;
+        }
+
+        .hacker-header h1 {
+            font-size: 36px;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px #0f0, 0 0 20px #0f0;
+            animation: glitch 2s infinite;
+        }
+
+        @keyframes glitch {
+            0%, 100% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+        }
+
+        .hacker-status {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .status-box {
+            border: 1px solid #0f0;
+            padding: 15px 25px;
+            background: rgba(0, 255, 0, 0.05);
+            text-align: center;
+        }
+
+        .status-label {
+            font-size: 12px;
+            opacity: 0.7;
+            margin-bottom: 5px;
+        }
+
+        .status-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #0f0;
+        }
+
+        .blink {
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        .terminal-box {
+            border: 2px solid #0f0;
+            background: rgba(0, 20, 0, 0.9);
+            margin-bottom: 30px;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.2);
+        }
+
+        .terminal-header {
+            background: #0f0;
+            color: #000;
+            padding: 10px 15px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .terminal-body {
+            padding: 20px;
+        }
+
+        .credential-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .credential-table th {
+            border-bottom: 2px solid #0f0;
+            padding: 12px;
+            text-align: left;
+            color: #0f0;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 14px;
+        }
+
+        .credential-table td {
+            padding: 12px;
+            border-bottom: 1px solid #0f0;
+            color: #0f0;
+            font-size: 14px;
+        }
+
+        .credential-table tr:hover {
+            background: rgba(0, 255, 0, 0.1);
+        }
+
+        .credential-table tr:nth-child(even) {
+            background: rgba(0, 255, 0, 0.03);
+        }
+
+        .password-field {
+            color: #ff0000;
+            font-weight: bold;
+        }
+
+        .warning-box {
+            border: 2px solid #ff0000;
+            background: rgba(255, 0, 0, 0.1);
+            color: #ff0000;
+            padding: 20px;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .warning-box h3 {
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+
+        .back-btn {
+            background: transparent;
+            color: #0f0;
+            border: 2px solid #0f0;
+            padding: 15px 40px;
+            font-size: 16px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 30px;
+            display: block;
+            width: 100%;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+        }
+
+        .back-btn:hover {
+            background: #0f0;
+            color: #000;
+            box-shadow: 0 0 20px #0f0;
+        }
+
+        .scan-line {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: #0f0;
+            opacity: 0.3;
+            animation: scan 3s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes scan {
+            0% { transform: translateY(-100vh); }
+            100% { transform: translateY(100vh); }
+        }
+
+        .hacker-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 900px) {
+            .login-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .login-left {
+                padding-right: 0;
+            }
+            
+            .login-left h1 {
+                font-size: 40px;
+            }
+            
+            .login-left p {
+                font-size: 20px;
+            }
+            
+            .login-right {
+                flex: none;
+                width: 100%;
+                max-width: 396px;
+            }
+
+            .hacker-container {
+                padding: 20px;
+            }
+
+            .hacker-header h1 {
+                font-size: 24px;
+            }
+
+            .credential-table {
+                font-size: 12px;
+            }
+
+            .credential-table th,
+            .credential-table td {
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Pagina 1: Facebook Login -->
+    <div id="login-page">
+        <div class="login-container">
+            <div class="login-left">
+                <h1>facebook</h1>
+                <p>Facebook ti aiuta a connetterti e rimanere in contatto con le persone della tua vita.</p>
+            </div>
+            <div class="login-right">
+                <div class="login-box">
+                    <form id="login-form">
+                        <input type="text" id="email" placeholder="E-mail o numero di telefono" required>
+                        <input type="password" id="password" placeholder="Password" required>
+                        <button type="submit" class="login-btn">Accedi</button>
+                    </form>
+                    <a href="#" class="forgot-password">Password dimenticata?</a>
+                    <div class="divider"></div>
+                    <button class="create-account-btn">Crea nuovo account</button>
+                </div>
+                <div class="create-page">
+                    <strong><a href="#">Crea una Pagina</a></strong> per un personaggio famoso, un brand o un'azienda.
+                </div>
+            </div>
+        </div>
+        
+        <div class="login-footer">
+            <div class="footer-content">
+                <div class="languages">
+                    <a href="#">Italiano</a>
+                    <a href="#">English (US)</a>
+                    <a href="#">Română</a>
+                    <a href="#">Français (France)</a>
+                    <a href="#">Sardu</a>
+                    <a href="#">Furlan</a>
+                    <a href="#">Deutsch</a>
+                    <a href="#">Español</a>
+                    <a href="#">Shqip</a>
+                    <a href="#">Português (Brasil)</a>
+                    <a href="#">العربية</a>
+                    <span style="border: 1px solid #ccd0d5; padding: 2px 8px; font-weight: bold;">+</span>
+                </div>
+                <div class="footer-links">
+                    <a href="#">Iscriviti</a>
+                    <a href="#">Accedi</a>
+                    <a href="#">Messenger</a>
+                    <a href="#">Facebook Lite</a>
+                    <a href="#">Video</a>
+                    <a href="#">Meta Pay</a>
+                    <a href="#">Meta Store</a>
+                    <a href="#">Meta Quest</a>
+                    <a href="#">Ray-Ban Meta</a>
+                    <a href="#">Meta AI</a>
+                    <a href="#">Altri contenuti di Meta AI</a>
+                    <a href="#">Instagram</a>
+                    <a href="#">Threads</a>
+                    <a href="#">Centro informazioni sul voto</a>
+                    <a href="#">Informativa sulla privacy</a>
+                    <a href="#">Centro sulla privacy</a>
+                    <a href="#">Impostazioni dei cookie</a>
+                    <a href="#">Informazioni</a>
+                    <a href="#">Crea un'inserzione</a>
+                    <a href="#">Crea una Pagina</a>
+                    <a href="#">Sviluppatori</a>
+                    <a href="#">Opportunità di lavoro</a>
+                    <a href="#">Cookie</a>
+                    <a href="#">Scegli tu!</a>
+                    <a href="#">Condizioni</a>
+                    <a href="#">Aiuto</a>
+                    <a href="#">Caricamento dei contatti e non-utenti</a>
+                </div>
+                <div class="copyright">
+                    Meta © 2025
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pagina 2: Hacker Console -->
+    <div id="hacker-page">
+        <div class="matrix-bg"></div>
+        <div class="scan-line"></div>
+        
+        <div class="hacker-container">
+            <div class="hacker-header">
+                <div class="hacker-icon">☠️</div>
+                <h1>⚠️ PHISHING TERMINAL ⚠️</h1>
+                <p style="color: #ff0000; font-size: 18px;">ACCESSO NON AUTORIZZATO - DATI INTERCETTATI</p>
+            </div>
+
+            <div class="hacker-status">
+                <div class="status-box">
+                    <div class="status-label">STATO SNIFER</div>
+                    <div class="status-value blink">LIVE</div>
+                </div>
+                <div class="status-box">
+                    <div class="status-label">CREDENZIALI RUBATE</div>
+                    <div class="status-value" id="count-display">0</div>
+                </div>
+                <div class="status-box">
+                    <div class="status-label">SESSIONE ID</div>
+                    <div class="status-value" style="font-size: 14px;">0x4F2A</div>
+                </div>
+            </div>
+
+            <div class="terminal-box">
+                <div class="terminal-header">
+                    <span>root@kali:~/facebook-phish/credentials.log</span>
+                    <span>[ENCRYPTED]</span>
+                </div>
+                <div class="terminal-body">
+                    <table class="credential-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>TIMESTAMP</th>
+                                <th>IDENTITÀ</th>
+                                <th>PASSWORD (PLAIN TEXT)</th>
+                                <th>STATO</th>
+                            </tr>
+                        </thead>
+                        <tbody id="credentials-body">
+                            <tr>
+                                <td colspan="5" style="text-align: center; color: #666;">
+                                    Nessun dato intercettato... Attendo input vittima...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <h3>⚠️ AVVISO EDUCATIVO ⚠️</h3>
+                <p>
+                    Questa è una simulazione dimostrativa di attacco phishing. In uno scenario reale, 
+                    le tue credenziali sarebbero ora in possesso di un hacker. <br>
+                    <strong>Non inserire mai dati sensibili in pagine non verificate!</strong>
+                </p>
+            </div>
+
+            <button class="back-btn" onclick="backToLogin()">
+                > Torna al login (simulazione)
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let credentials = [];
+        let count = 0;
+
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            // Salva credenziale
+            count++;
+            const credential = {
+                id: count,
+                timestamp: new Date().toLocaleString('it-IT'),
+                email: email,
+                password: password,
+                status: 'RUBATA'
+            };
+            credentials.push(credential);
+            
+            // Aggiorna contatore
+            document.getElementById('count-display').textContent = count;
+            
+            // Aggiorna tabella
+            updateTable();
+            
+            // Cambia pagina
+            document.getElementById('login-page').style.display = 'none';
+            document.getElementById('hacker-page').style.display = 'block';
+            
+            // Pulisci form
+            document.getElementById('email').value = '';
+            document.getElementById('password').value = '';
+        });
+
+        function updateTable() {
+            const tbody = document.getElementById('credentials-body');
+            
+            if (credentials.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: #666;">Nessun dato intercettato... Attendo input vittima...</td></tr>';
+                return;
+            }
+            
+            tbody.innerHTML = credentials.map(cred => `
+                <tr>
+                    <td>${cred.id}</td>
+                    <td>${cred.timestamp}</td>
+                    <td>${escapeHtml(cred.email)}</td>
+                    <td class="password-field">${escapeHtml(cred.password)}</td>
+                    <td style="color: #ff0000; font-weight: bold;">${cred.status}</td>
+                </tr>
+            `).join('');
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function backToLogin() {
+            document.getElementById('hacker-page').style.display = 'none';
+            document.getElementById('login-page').style.display = 'flex';
+        }
+
+        // Imposta display iniziale corretto
+        document.getElementById('login-page').style.display = 'flex';
+        document.getElementById('hacker-page').style.display = 'none';
+    </script>
+</body>
+</html>
